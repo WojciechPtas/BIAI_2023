@@ -71,6 +71,8 @@ def train_polyfit():
         model = function_generator(best_solutions[degree-1])
         plt.scatter(X_test,model(X_test),label=f"Degree {degree}")
     plt.scatter(X_test,y_test,label="Real data")
+    plt.xlabel("Distance from UWB (m)")
+    plt.ylabel("Corrected distance/Real distance (m)")
     plt.legend()
     plt.show()
     
@@ -98,6 +100,8 @@ def train_polyfit():
     # Plot best model
     plt.scatter(X_test,model(X_test),label=f"Degree {best_degree}")
     plt.scatter(X_test,y_test,label="Real data")
+    plt.xlabel("Distance from UWB (m)")
+    plt.ylabel("Corrected distance/Real distance (m)")
     plt.legend()
     plt.show()
     

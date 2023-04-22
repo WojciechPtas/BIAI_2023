@@ -75,12 +75,16 @@ def tran_ga():
     #Plot results with labels
     plt.errorbar(x=[x for x in range(1,MAX_POLYNOMIAL_DEGREE)],y=[x[0] for x in degree_scores],yerr=[x[1] for x in degree_scores],label="Standard error")
     plt.legend()
+    plt.xlabel("Polynomial degree")
+    plt.ylabel("Mean squared error in m")
     plt.show()
     # Plot all models
     for degree in range(1,MAX_POLYNOMIAL_DEGREE):
         model = function_generator(best_solutions[degree-1])
         plt.scatter(X_test,model(X_test),label=f"Degree {degree}")
     plt.scatter(X_test,y_test,label="Real data")
+    plt.xlabel("Distance from UWB")
+    plt.ylabel("Corrected distance/Real distance")
     plt.legend()
     plt.show()
     
@@ -110,6 +114,8 @@ def tran_ga():
     # Plot best model
     plt.scatter(X_test,model(X_test),label=f"Degree {best_degree}")
     plt.scatter(X_test,y_test,label="Real data")
+    plt.xlabel("Distance from UWB (m)")
+    plt.ylabel("Corrected distance/Real distance (m)")
     plt.legend()
     plt.show()
     
