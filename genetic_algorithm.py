@@ -1,7 +1,7 @@
 import pygad
 import numpy
 from os import system
-
+import itertools
 import math
 import pandas as pd
 from typing import Tuple
@@ -11,12 +11,13 @@ from sklearn.model_selection import train_test_split
 MAX_POLYNOMIAL_DEGREE = 11
 def calculate_error(model,inputs,expected):
     assert len(inputs) == len(expected)
-    errors=[]
-    for i in range(len(inputs)):
-        errors.append(model(inputs[i])-expected[i])
-    errors_2 = [pow(x,2) for x in errors]
-    mse=numpy.mean(errors_2)
-    standard_error = math.sqrt(1/(len(errors_2)-1)*sum(errors_2))
+    errors=[[],[]]
+    for (x,y) in zip(inputs,expected):
+        diff = model(x)-y
+        errors[0].append(diff)
+        errors[1].append(diff**2)
+    mse = numpy.mean(errors[1])
+    standard_error = numpy.std(errors[0])
     return (mse,standard_error)
 
 def load_data():
