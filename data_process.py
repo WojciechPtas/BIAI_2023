@@ -18,6 +18,6 @@ for file in files:
                     print("Appending line: " + str(csv_line))
                     csv_lines.append(csv_line)
 
-df = pd.DataFrame(columns=['reference_distance', 'real_distance', 'signal_strength', "delta"], data=csv_lines)
+df = pd.DataFrame(columns=['reference_distance', 'mesured_distance', 'signal_strength', "delta"], data=csv_lines)
 
 df.to_csv('data.csv')
