@@ -19,10 +19,11 @@ def load_data_in_batches():
                         csv_arr = line.split('|')
                         csv_arr = csv_arr[1:3]
                         csv_line = [reference_distance, float(csv_arr[0]), float(csv_arr[1]), float(csv_arr[0]) - float(file.replace(".txt", ""))]
-                        print("Appending line: " + str(csv_line))
+                        # print("Appending line: " + str(csv_line))
                         csv_lines.append(csv_line)
                         csv_batch.append(csv_line)
                 csv_batches.append((reference_distance, pd.DataFrame(columns=CSV_LABELS, data=csv_batch)))
+                csv_batch = []
                 
 
 
