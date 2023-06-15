@@ -23,9 +23,9 @@ def calculate_error(model,inputs,expected):
     return (mse,standard_error)
 
 def load_data():
-    data = pd.read_csv('data.csv')
-    X = data.iloc[:,0].values
-    y = data.iloc[:,1].values
+    data = pd.read_csv('.\data.csv')
+    X = data.iloc[:,2].values
+    y = data.iloc[:,4].values
     return X,y
 
 def train_polyfit():
@@ -65,6 +65,8 @@ def train_polyfit():
     #Plot results with labels
     plt.errorbar(x=[x for x in range(1,MAX_POLYNOMIAL_DEGREE)],y=[x[0] for x in degree_scores],yerr=[x[1] for x in degree_scores],label="Standard error")
     plt.legend()
+    plt.xlabel("Polynomial degree")
+    plt.ylabel("Mean squared error value in meters")
     plt.show()
     # Plot all models
     for degree in range(1,MAX_POLYNOMIAL_DEGREE):
@@ -72,7 +74,7 @@ def train_polyfit():
         plt.scatter(X_test,model(X_test),label=f"Degree {degree}")
     plt.scatter(X_test,y_test,label="Real data")
     plt.xlabel("Distance from UWB (m)")
-    plt.ylabel("Corrected distance/Real distance (m)")
+    plt.ylabel("Real distance - measured (m)")
     plt.legend()
     plt.show()
     
@@ -89,7 +91,7 @@ def train_polyfit():
             break
     best_degree=best_degree+1
     print(f"Best degree within standard error for the lowest mse is {best_degree}")
-    
+    #best_degree=6
     # Create model for the best degree
     solution = numpy.polyfit(X_train,y_train,best_degree)
     solution = numpy.flip(solution)
@@ -98,53 +100,17 @@ def train_polyfit():
     mse,stardard_error = calculate_error(model,X_test,y_test)
     print(f"Best model has {mse=} and {stardard_error=}")
     # Plot best model
-    plt.scatter(X_test,model(X_test),label=f"Degree {best_degree}")
     plt.scatter(X_test,y_test,label="Real data")
+    plt.scatter(X_test,model(X_test),label=f"Degree {best_degree}")
     plt.xlabel("Distance from UWB (m)")
     plt.ylabel("Corrected distance/Real distance (m)")
     plt.legend()
     plt.show()
     
-  
-            
-            
-            
-            
-            
-            
-            
-    #         #create and train ten GA models and than get the best solution from them
-    #         best_solution = None
-    #         best_fitness = 0
-    #         # for i in range(10):
-    #         #     ga_instance = create_GA_model(degree)
-    #         #     ga_instance.run()
-    #         #     #models_generated+=1
-    #         #     #system("cls")
-    #         #     #print(f"We already have generated {models_generated} models")
-    #         #     if ga_instance.best_solution()[1] > best_fitness:
-    #         #         best_fitness = ga_instance.best_solution()[1]
-    #         #         best_solution = ga_instance.best_solution()[0]
-    #         # # Create model from best solution
-    #         # if best_fitness_for_degree < best_fitness:
-    #         #     best_fitness_for_degree = best_fitness
-    #         #     best_solution_for_degree = best_solution
-            
-    #         #create a polynomial model with numpy
-    #         best_solution = numpy.polyfit(X_train_cv,y_train_cv,degree)
-    #         best_solution = numpy.flip(best_solution)
-    #         #print(best_solution)
-    #         # Create model from best solution         
-    #         model = function_generator(best_solution)
-    #         # Calculate error
-    #         mse,standard_error = calculate_error(model,X_test_cv,y_test_cv)
-    #         # Add error to degree_scores
-    #         degree_values.append((degree,mse,standard_error))
-    #     print(f"Best solution for degree {degree} is {best_solution}")
-    #     # Calculate mean error for degree
-    #     degree_scores.append((degree,numpy.mean([x[1] for x in degree_values]),numpy.mean([x[2] for x in degree_values])))
-    # # Scatter degree_scores and their standard error with matplotlib
-    # df = pd.DataFrame(degree_scores,columns=['degree','mse','standard_error'])
-    # print(df)
+    plt.scatter(X_test,model(X_test)-y_test,label=f"Degree {best_degree}")
+    plt.xlabel("Distance from UWB (m)")
+    plt.ylabel("Difference between real and predicted distance (m)")
+    plt.legend()
+    plt.show()
 if __name__ == "__main__":
     train_polyfit()
