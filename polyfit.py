@@ -94,6 +94,7 @@ def train_polyfit():
     #best_degree=6
     # Create model for the best degree
     solution = numpy.polyfit(X_train,y_train,best_degree)
+    print(f"Best solution for {best_degree=} is {solution}")
     solution = numpy.flip(solution)
     # Create model from solution
     model = function_generator(solution)

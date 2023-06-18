@@ -22,7 +22,7 @@ def objective(coefficients):
         target_value = y_train[i]
         fitness += (predicted_value - target_value) ** 2
 
-    return fitness
+    return fitness/len(X_train)
 
 # decode bitstring to numbers
 def decode(bounds, n_bits, bitstring):
@@ -91,7 +91,7 @@ def genetic_algorithm(objective, bounds, n_bits, n_iter, n_pop, r_cross, r_mut):
 		for i in range(n_pop):
 			if scores[i] < best_eval:
 				best, best_eval = pop[i], scores[i]
-				print(">%d, new best f(%s) = %f" % (gen,  decoded[i], scores[i]))
+				print("generation %d, new best coefficients: %s,  MSE= %f" % (gen,  decoded[i], scores[i]))
 		# select parents
 		selected = [selection(pop, scores) for _ in range(n_pop)]
 		# create the next generation
@@ -128,5 +128,7 @@ decoded = decode(bounds, n_bits, best)
 print('f(%s) = %f' % (decoded, score))
 plt.scatter(X_test,y_test, label='target')
 plt.scatter(X_test,[np.polyval(decoded, x) for x in X_test], label='predicted')
+plt.xlabel('measured distance (m)')
+plt.ylabel('delta (m)')
 plt.legend()
 plt.show()
