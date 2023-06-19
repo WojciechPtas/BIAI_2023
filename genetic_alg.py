@@ -132,3 +132,7 @@ plt.xlabel('measured distance (m)')
 plt.ylabel('delta (m)')
 plt.legend()
 plt.show()
+
+predicted_value = np.polyval(decoded, X_test)
+mse=sum((predicted_value - y_test) ** 2)/len(y_test)
+print("test MSE: ", mse)
